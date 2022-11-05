@@ -21,7 +21,7 @@ const { chains, provider } = configureChains(
 )
 
 const { connectors } = getDefaultWallets({
-  appName: 'Zora Create',
+  appName: 'Syryn Records',
   chains,
 })
 

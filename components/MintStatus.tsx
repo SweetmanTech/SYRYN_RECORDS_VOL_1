@@ -13,7 +13,7 @@ import {
 import React, { useEffect, useCallback, useMemo, useState } from 'react'
 import { SubgraphERC721Drop } from 'models/subgraph'
 import { useERC721DropContract } from 'providers/ERC721DropProvider'
-import { useAccount, useNetwork } from 'wagmi'
+import { useAccount, useNetwork, useSigner } from 'wagmi'
 import { formatCryptoVal } from 'lib/numbers'
 import { OPEN_EDITION_SIZE } from 'lib/constants'
 import { parseInt } from 'lodash'
@@ -22,7 +22,8 @@ import { useSaleStatus } from 'hooks/useSaleStatus'
 import { CountdownTimer } from 'components/CountdownTimer'
 import { cleanErrors } from 'lib/errors'
 import { AllowListEntry } from 'lib/merkle-proof'
-import type { ContractTransaction } from 'ethers'
+import { ContractTransaction, ethers } from 'ethers'
+import abi from '@lib/SYRYN-abi.json'
 
 function SaleStatus({
   collection,
@@ -43,6 +44,7 @@ function SaleStatus({
 }) {
   const { data: account } = useAccount()
   const { switchNetwork } = useNetwork()
+  const {data: signer} = useSigner()
 
   const dropProvider = useERC721DropContract()
   const { chainId, correctNetwork } = useERC721DropContract()
@@ -55,15 +57,24 @@ function SaleStatus({
       collection,
       presale,
     })
+  
+  const mint = async () => {
+    const contract = new ethers.Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS, abi, signer);
+    console.log("CONTRACT", contract)
+    console.log("account", account)
+    console.log("mintCounter", mintCounter)
+    const tx = await contract.mint(account.address, 1, mintCounter)
+    console.log("tx", tx)
+  }
 
   const handleMint = useCallback(async () => {
     setIsMinted(false)
     setAwaitingApproval(true)
     setErrors(undefined)
     try {
-      const tx: ContractTransaction | undefined = presale
+      const tx: any = presale
         ? await dropProvider.purchasePresale(mintCounter, allowlistEntry)
-        : await dropProvider.purchase(mintCounter)
+        : await mint()
       console.log({ tx })
       setAwaitingApproval(false)
       setIsMinting(true)

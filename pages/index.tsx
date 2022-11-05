@@ -1,7 +1,7 @@
 import { ethers, utils } from 'ethers'
 import { GetStaticProps } from 'next'
 import { ipfsImage } from '@lib/helpers'
-import abi from '@lib/ERC721Drop-abi.json'
+import abi from '@lib/SYRYN-abi.json'
 import metadataRendererAbi from '@lib/MetadataRenderer-abi.json'
 import getDefaultProvider from '@lib/getDefaultProvider'
 import { allChains } from 'wagmi'
@@ -13,6 +13,8 @@ export default MintPage;
 export const getServerSideProps: GetStaticProps = async (context) => {
   const chainId = process.env.NEXT_PUBLIC_CHAIN_ID;
   const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
+  console.log("contractAddress", contractAddress)
+  console.log("chainId", chainId)
   if (!utils.isAddress(contractAddress.toString())) {
     return {
       notFound: true,
@@ -25,96 +27,110 @@ export const getServerSideProps: GetStaticProps = async (context) => {
   )
   const provider = getDefaultProvider(chain.network, chainId);
   const contract = new ethers.Contract(contractAddress.toString(), abi, provider);
-
+  // console.log("contract", contract)
+  
   // Get metadata renderer
-  const metadataRendererAddress = await contract.metadataRenderer();
-  const metadataRendererContract = new ethers.Contract(metadataRendererAddress.toString(), metadataRendererAbi, provider);
-  const metadataBase = await metadataRendererContract.metadataBaseByContract(contractAddress);
-  const metadataURI = ipfsImage(metadataBase.base)
-  const axios = require('axios').default;
-  const {data: metadata} = await axios.get(metadataURI)
+  try {
+    const uri = await contract.uri(1);
+    console.log("uri", uri)
+  
+    const metadataURI = ipfsImage(uri)
+    const axios = require('axios').default;
+    const {data: metadata} = await axios.get(metadataURI)
+    console.log("metadata", metadata)
+    const price = await contract.cost();
+    console.log("PRICe", price)
 
-  // Get Sale Details
-  const saleDetails = await contract.saleDetails();
+    const maxSalePurchasePerAddress = await contract.maxMintAmount()
+    const totalSupply = await contract.totalSupply(1)
+    console.log("totalSupply", totalSupply)
+    const maxSupply = await contract.maxSupply(1)
+    console.log("maxSupply", maxSupply)
 
-  const maxSalePurchasePerAddress = saleDetails.maxSalePurchasePerAddress.toString() === "0" ? 1000001 : saleDetails.maxSalePurchasePerAddress.toString()
-  const erc721Drop = {
-    id: "string",
-    created: {
+    const erc721Drop = {
       id: "string",
-      block: "string",
-      timestamp: "string",
-    },
-    creator: "string",
-    address: contractAddress,
-    name: metadata.name,
-    symbol: "string",
-    contractConfig: {
-      metadataRenderer: "string",
-      editionSize: "string",
-      royaltyBPS: "number",
-      fundsRecipient: "string",
-    },
-    salesConfig: {
-      publicSalePrice: saleDetails.publicSalePrice.toString(),
-      maxSalePurchasePerAddress,
-      publicSaleStart: saleDetails.publicSaleStart.toString(),
-      publicSaleEnd: saleDetails.publicSaleEnd.toString(),
-      presaleStart: saleDetails.presaleStart.toString(),
-      presaleEnd: saleDetails.presaleEnd.toString(),
-      presaleMerkleRoot: "0x0000000000000000000000000000000000000000000000000000000000000000"
-    },
-    salesConfigHistory: [{
-      publicSalePrice: "string",
-      maxSalePurchasePerAddress: "string",
-      publicSaleStart: "string",
-      publicSaleEnd: "string",
-      presaleStart: "string",
-      presaleEnd: "string",
-      presaleMerkleRoot: "0x0000000000000000000000000000000000000000000000000000000000000000"
-    }],
-    editionMetadata: {
-      id: "string",
-      description: metadata.description,
-      imageURI: metadata.image,
-      contractURI: "string",
-      animationURI: metadata.animation_url || "",
-      mimeType: metadata.mimeType || "",
-    },
-    sales: [{
-      id: "string",
-      pricePerToken: "string",
-      priceTotal: "string",
-      count: "string",
-      purchaser: "string",
-      firstPurchasedTokenId: 0,
+      created: {
+        id: "string",
+        block: "string",
+        timestamp: "string",
+      },
+      creator: "string",
+      address: contractAddress,
+      name: metadata.name,
+      symbol: "string",
+      contractConfig: {
+        metadataRenderer: "string",
+        editionSize: "string",
+        royaltyBPS: "number",
+        fundsRecipient: "string",
+      },
+      salesConfig: {
+        publicSalePrice: price.toString(),
+        maxSalePurchasePerAddress: maxSalePurchasePerAddress.toString(),
+        publicSaleStart: "0",
+        publicSaleEnd: "9223372036854775807",
+        presaleStart: "0",
+        presaleEnd: "0",
+        presaleMerkleRoot: "0x0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      salesConfigHistory: [{
+        publicSalePrice: "string",
+        maxSalePurchasePerAddress: "string",
+        publicSaleStart: "string",
+        publicSaleEnd: "string",
+        presaleStart: "string",
+        presaleEnd: "string",
+        presaleMerkleRoot: "0x0000000000000000000000000000000000000000000000000000000000000000"
+      }],
+      editionMetadata: {
+        id: "string",
+        description: metadata.description,
+        imageURI: metadata.image,
+        contractURI: "string",
+        animationURI: metadata.animation_url || "",
+        mimeType: metadata.mimeType || "",
+      },
+      sales: [{
+        id: "string",
+        pricePerToken: "string",
+        priceTotal: "string",
+        count: "string",
+        purchaser: "string",
+        firstPurchasedTokenId: 0,
+        txn: {
+          id: "string",
+          block: "string",
+          timestamp: "string"
+        }
+      }],
+      transfers: [{
+        id: "string",
+        tokenId: "string",
+        to: "string",
+        from: "string",
+        txn: {
+          id: "string",
+          block: "string",
+          timestamp: "string"
+        }
+      }],
+      totalMinted: totalSupply.toString(),
+      maxSupply: maxSupply.toString(),
       txn: {
         id: "string",
         block: "string",
         timestamp: "string"
       }
-    }],
-    transfers: [{
-      id: "string",
-      tokenId: "string",
-      to: "string",
-      from: "string",
-      txn: {
-        id: "string",
-        block: "string",
-        timestamp: "string"
-      }
-    }],
-    totalMinted: saleDetails.totalMinted.toString(),
-    maxSupply: saleDetails.maxSupply.toString(),
-    txn: {
-      id: "string",
-      block: "string",
-      timestamp: "string"
     }
-  }
-
-  return {
-    props: { collection: erc721Drop, chainId: chain.id },
-  }
+  
+    return {
+      props: { collection: erc721Drop, chainId: chain.id },
+    }
+  } catch(error) {
+    console.error(error)
+    return {
+      props: { collection: {}, chainId: chain.id}
+    }
+  } 
+  
 }
