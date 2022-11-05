@@ -47,7 +47,6 @@ export function MintDetails({
   return (
     <Stack gap="x4">
       <Stack gap="x3">
-        <Separator my="x2" />
         <Flex gap="x3" justify="space-between">
           <Text variant="paragraph-sm" color="tertiary">
             Number minted
@@ -63,6 +62,8 @@ export function MintDetails({
             )}
           </Text>
         </Flex>
+        <Separator my="x2" />
+
         {showPresale && presaleExists && (
           <>
             <Flex gap="x2" justify="space-between">
@@ -85,14 +86,6 @@ export function MintDetails({
             </Flex>
           </>
         )}
-        <Flex gap="x2" justify="space-between">
-          <Text variant="paragraph-sm" color="tertiary">
-            Public sale start
-          </Text>
-          <Text variant="paragraph-sm" align="right">
-            {startDate.toLocaleString(...dateOptions as [string, Intl.DateTimeFormatOptions])}
-          </Text>
-        </Flex>
       </Stack>
     </Stack>
   )

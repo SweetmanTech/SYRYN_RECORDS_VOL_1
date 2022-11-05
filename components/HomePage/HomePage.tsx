@@ -64,11 +64,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
         />
         <meta name="twitter:image" content={ogImage} />
       </Head>
-
-      <Flex justify="flex-end" p="x4" className={header}>
-        <ConnectWallet />
-      </Flex>
-      <Stack mt="x3" gap="x3">
+      <Stack mt="x3" gap="x3" style={{backgroundColor: "#ceb435"}}>
         <Box className={maxWidth} p="x4">
           <Text variant="menu-lg" mb="x8" align="center">
             <b>{collection.name}</b>
@@ -84,20 +80,13 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
                 chainId={chainId}
               >
 <Well className={border} p="x6" style={{ borderBottom: 0 }}>
-              <img
-                className={heroImage}
-                src={ipfsImage(collection.editionMetadata.imageURI)}
-                alt={collection.name}
-              />
-              {collection.editionMetadata?.mimeType?.includes?.("audio") && <audio controls>
-                <source src={ipfsImage(collection.editionMetadata.animationURI)} type={collection.editionMetadata.mimeType} />
-              Your browser does not support the audio element.
-              </audio>}
+              <iframe height={750} width={500} src={ipfsImage(collection.editionMetadata.animationURI)} frameBorder="0"></iframe>
             </Well>
             <Well className={border} p="x6">
                 <Box>
                   {collection != null ? (
                     <>
+                      <MintDetails collection={collection} showPresale={false} />
                       {presaleExists ? (
                         <>
                           <Flex flexChildren gap="x3" mb="x2">
@@ -128,7 +117,6 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
                       ) : (
                         <MintStatus collection={collection} />
                       )}
-                      <MintDetails collection={collection} showPresale={false} />
                     </>
                   ) : (
                     <Paragraph align="center" mt="x8">
