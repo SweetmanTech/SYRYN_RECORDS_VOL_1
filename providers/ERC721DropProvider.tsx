@@ -13,10 +13,11 @@ import { parseEther } from 'ethers/lib/utils'
 import { AllowListEntry } from 'lib/merkle-proof'
 import getDefaultProvider from 'lib/getDefaultProvider'
 import type { ContractTransaction } from 'ethers'
-import abi from '@lib/ERC721Drop-abi.json'
+import abi from '@lib/SYRYN-abi.json'
 
 export interface ERC721DropProviderState {
   purchase: (quantity: number) => Promise<ContractTransaction | undefined>
+  mint: (to: any, id: number, quantity: number) => Promise<ContractTransaction | undefined>
   purchasePresale: (
     quantity: number,
     allowlistEntry?: AllowListEntry
@@ -72,22 +73,27 @@ function ERC721DropContractProvider({
     [signer, erc721DropAddress]
   )
 
-  useEffect(() => {
-    ;(async () => {
-      if (saleDetails || !drop || !signer) {
-        return
-      }
-      const config = (await drop.saleDetails()) as unknown
-
-      setSaleDetails(config as EditionSaleDetails)
-    })()
-  }, [drop, saleDetails, signer])
-
   const purchase = useCallback(
     async (quantity: number) => {
       if (!drop || !saleDetails) return
       const tx = await drop.purchase(quantity, {
         value: (saleDetails.publicSalePrice as BigNumber).mul(BigNumber.from(quantity)),
+      })
+      return tx
+    },
+    [drop, saleDetails]
+  )
+
+  const mint = useCallback(
+    async (address: any, id: number, quantity: number) => {
+      console.log("HELLO WORLD")
+      console.log("SIGNER", signer)
+      if (!drop) return
+      console.log("HELLO WORLD PART 2")
+      const wei = ethers.utils.parseEther("0.05");
+      console.log("WEI", wei)
+      const tx = await drop.mint(address, id, quantity, {
+        value: (wei as BigNumber).mul(BigNumber.from(quantity)),
       })
       return tx
     },
@@ -174,22 +180,6 @@ function ERC721DropContractProvider({
   const updateSalesConfig = useCallback(
     async (config: EditionSalesConfig) => {
       if (!drop) return
-
-      const tx = await drop.setSaleConfiguration(
-        config.publicSalePrice,
-        config.maxSalePurchasePerAddress,
-        config.publicSaleStart,
-        config.publicSaleEnd,
-        config.presaleStart,
-        config.presaleEnd,
-        config.presaleMerkleRoot
-      )
-
-      await tx.wait(2)
-
-      const updatedConfig = (await drop.saleDetails()) as unknown
-
-      setSaleDetails(updatedConfig as EditionSaleDetails)
     },
     [drop]
   )
@@ -254,6 +244,7 @@ function ERC721DropContractProvider({
   return (
     <ERC721DropContext.Provider
       value={{
+        mint,
         purchase,
         purchasePresale,
         isAdmin,
