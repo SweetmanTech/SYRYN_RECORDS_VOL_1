@@ -138,8 +138,10 @@ function SaleStatus({
             onClick={
               !account ? openConnectModal : !correctNetwork ? () => switchNetwork?.(chainId) : handleMint
             }
-            style={isMinted ? { backgroundColor: '#1CB687' } : {}}
-            className={awaitingApproval ? waitingApproval : ''}
+            style={isMinted ? { backgroundColor: '#1CB687' } : {
+              backgroundColor: "#6dc4ca"
+            }}
+            className='fill-blue-500'
             disabled={
               isMinting ||
               awaitingApproval ||
