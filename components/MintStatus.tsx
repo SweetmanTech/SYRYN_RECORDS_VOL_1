@@ -1,4 +1,4 @@
-import { ConnectButton, useConnectModal } from '@rainbow-me/rainbowkit'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 import {
   Box,
   Button,
@@ -46,7 +46,6 @@ function SaleStatus({
   const { chain: activeChain } = useNetwork()
   const {switchNetwork} = useSwitchNetwork()
   const {data: signer} = useSigner()
-  const { openConnectModal } = useConnectModal();
   const correctNetwork = useMemo(
     () => (process.env.NEXT_PUBLIC_CHAIN_ID) == activeChain?.id.toString(),
     [activeChain]
