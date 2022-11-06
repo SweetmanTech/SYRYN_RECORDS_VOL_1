@@ -10,15 +10,12 @@ import {
   Paragraph,
   SpinnerOG,
 } from '@zoralabs/zord'
-import { ConnectWallet } from '@components/ConnectWallet'
-import ERC721DropContractProvider from '@providers/ERC721DropProvider'
 import { NextPage } from 'next'
 import { SubgraphERC721Drop } from 'models/subgraph'
 import { MintStatus } from '@components/MintStatus'
 import { MintDetails } from '@components/MintDetails'
-import { PresaleStatus } from '@components/PresaleStatus'
 import { ipfsImage } from '@lib/helpers'
-import { header, maxWidth, border, heroImage } from 'styles/styles.css'
+import { maxWidth, border } from 'styles/styles.css'
 import { useSaleStatus } from 'hooks/useSaleStatus'
 
 interface HomePageProps {
@@ -75,11 +72,8 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
             <u><a href="https://ipfs.io/ipfs/bafkreiecfewq7fmvk6zuoe7djotqcu2m74w3yu5bv5b3qvt76ifulgtb5u?1" target="__blank">view full music metadata</a></u>
           </Text>
           <Box mt="x8" mx="auto" style={{ maxWidth: 560 }}>
-          <ERC721DropContractProvider
-                erc721DropAddress={collection.address}
-                chainId={chainId}
-              >
-<Well className={border} p="x6" style={{ borderBottom: 0 }}>
+
+            <Well className={border} p="x6" style={{ borderBottom: 0 }}>
               <iframe height={750} width={500} src={ipfsImage(collection.editionMetadata.animationURI)} frameBorder="0"></iframe>
             </Well>
             <Well className={border} p="x6">
@@ -87,36 +81,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
                   {collection != null ? (
                     <>
                       <MintDetails collection={collection} showPresale={false} />
-                      {presaleExists ? (
-                        <>
-                          <Flex flexChildren gap="x3" mb="x2">
-                            <Button
-                              pill
-                              variant={showPresale ? 'primary' : 'ghost'}
-                              color={showPresale ? 'primary' : 'tertiary'}
-                              onClick={() => setShowPresale(true)}
-                            >
-                              Presale
-                            </Button>
-                            <Button
-                              pill
-                              variant={!showPresale ? 'primary' : 'ghost'}
-                              color={!showPresale ? 'primary' : 'tertiary'}
-                              onClick={() => setShowPresale(false)}
-                            >
-                              Public sale
-                            </Button>
-                          </Flex>
-                          <Box style={{ display: showPresale ? 'block' : 'none' }}>
-                            <PresaleStatus collection={collection} />
-                          </Box>
-                          <Box style={{ display: !showPresale ? 'block' : 'none' }}>
-                            <MintStatus collection={collection} />
-                          </Box>
-                        </>
-                      ) : (
-                        <MintStatus collection={collection} />
-                      )}
+                      <MintStatus collection={collection} />
                     </>
                   ) : (
                     <Paragraph align="center" mt="x8">
@@ -124,9 +89,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
                     </Paragraph>
                   )}
                 </Box>
-            </Well>
-              </ERC721DropContractProvider>
-            
+            </Well>            
           </Box>
         </Box>
       </Stack>
