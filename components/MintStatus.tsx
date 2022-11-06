@@ -61,11 +61,7 @@ function SaleStatus({
   
   const mint = async () => {
     const contract = new ethers.Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS, abi, signer);
-    console.log("CONTRACT", contract)
-    console.log("account", account)
-    console.log("mintCounter", mintCounter)
     const tx = await contract.mint(account.address, 1, mintCounter, {value: (BigNumber.from(collection.salesConfig.publicSalePrice)).mul(mintCounter).toString()})
-    console.log("tx", tx)
     return tx
   }
 
@@ -75,7 +71,6 @@ function SaleStatus({
     setErrors(undefined)
     try {
       const tx = await mint()
-      console.log({ tx })
       setAwaitingApproval(false)
       setIsMinting(true)
       if (tx) {
@@ -86,7 +81,6 @@ function SaleStatus({
         throw 'Error creating transaction! Please try again'
       }
     } catch (e: any) {
-      console.log("CAUGHT ERROR")
       handleTxError(e)
       setErrors(cleanErrors(e))
       setAwaitingApproval(false)
