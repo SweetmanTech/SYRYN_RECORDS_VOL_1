@@ -1,4 +1,4 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { ConnectButton, useConnectModal } from '@rainbow-me/rainbowkit'
 import {
   Box,
   Button,
@@ -10,10 +10,9 @@ import {
   Stack,
   SpinnerOG,
 } from '@zoralabs/zord'
-import React, { useEffect, useCallback, useState } from 'react'
+import React, { useCallback, useState, useMemo } from 'react'
 import { SubgraphERC721Drop } from 'models/subgraph'
-import { useERC721DropContract } from 'providers/ERC721DropProvider'
-import { useAccount, useNetwork, useSigner } from 'wagmi'
+import { useAccount, useNetwork, useSigner, useSwitchNetwork } from 'wagmi'
 import { formatCryptoVal } from 'lib/numbers'
 import { OPEN_EDITION_SIZE } from 'lib/constants'
 import { parseInt } from 'lodash'
@@ -43,12 +42,15 @@ function SaleStatus({
   availableMints: number
   allowlistEntry?: AllowListEntry
 }) {
-  const { data: account } = useAccount()
-  const { switchNetwork } = useNetwork()
+  const { address: account } = useAccount()
+  const { chain: activeChain } = useNetwork()
+  const {switchNetwork} = useSwitchNetwork()
   const {data: signer} = useSigner()
-
-  const dropProvider = useERC721DropContract()
-  const { chainId, correctNetwork } = useERC721DropContract()
+  const { openConnectModal } = useConnectModal();
+  const correctNetwork = useMemo(
+    () => (process.env.NEXT_PUBLIC_CHAIN_ID) == activeChain?.id.toString(),
+    [activeChain]
+  )
   const [awaitingApproval, setAwaitingApproval] = useState<boolean>(false)
   const [isMinting, setIsMinting] = useState<boolean>(false)
   const [errors, setErrors] = useState<string>()
@@ -60,8 +62,9 @@ function SaleStatus({
     })
   
   const mint = async () => {
+    console.log("SIGNER", signer)
     const contract = new ethers.Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS, abi, signer);
-    const tx = await contract.mint(account.address, 1, mintCounter, {value: (BigNumber.from(collection.salesConfig.publicSalePrice)).mul(mintCounter).toString()})
+    const tx = await contract.mint(account, 1, mintCounter, {value: (BigNumber.from(collection.salesConfig.publicSalePrice)).mul(mintCounter).toString()})
     return tx
   }
 
@@ -86,7 +89,7 @@ function SaleStatus({
       setAwaitingApproval(false)
       setIsMinting(false)
     }
-  }, [dropProvider, mintCounter, allowlistEntry])
+  }, [mintCounter, allowlistEntry])
 
   if (saleIsFinished || isSoldOut) {
     return (
@@ -121,7 +124,7 @@ function SaleStatus({
   return (
     <>
       <ConnectButton.Custom>
-        {({ openChainModal, openConnectModal }) => (
+        {({ openConnectModal }) => (
           <Button
             icon={isMinted ? 'Check' : undefined}
             iconSize="sm"
@@ -136,7 +139,7 @@ function SaleStatus({
                 : undefined
             }
             onClick={
-              !account ? openConnectModal : !correctNetwork ? () => switchNetwork?.(chainId) : handleMint
+              !account ? openConnectModal : !correctNetwork ? () => switchNetwork?.(Number(process.env.NEXT_PUBLIC_CHAIN_ID)) : handleMint
             }
             style={isMinted ? { backgroundColor: '#1CB687' } : {}}
             className={awaitingApproval ? waitingApproval : ''}
@@ -201,7 +204,6 @@ export function MintStatus({
   showPrice?: boolean
   allowlistEntry?: AllowListEntry
 }) {
-  const { userMintedCount, totalMinted, updateMintCounters } = useERC721DropContract()
   const { isSoldOut, saleIsActive, saleIsFinished } = useSaleStatus({
     collection,
     presale,
@@ -213,12 +215,8 @@ export function MintStatus({
   )
   const [isMinted, setIsMinted] = useState<boolean>(false)
   const [mintCounter, setMintCounter] = useState(1)
-  const availableMints = maxPerWallet - (userMintedCount || 0)
+  const availableMints = maxPerWallet
   const internalPrice = allowlistEntry?.price || collection.salesConfig.publicSalePrice
-
-  useEffect(() => {
-    updateMintCounters()
-  }, [updateMintCounters, isMinted])
 
   function handleMintCounterUpdate(value: any) {
     setMintCounter(value)
@@ -234,7 +232,7 @@ export function MintStatus({
   // TODO: handle integer overflows for when we do open mints
   const formattedMintedCount = Intl.NumberFormat('en', {
     notation: 'standard',
-  }).format(totalMinted || parseInt(collection.totalMinted))
+  }).format(parseInt(collection.totalMinted))
 
   const formattedTotalSupplyCount = Intl.NumberFormat('en', {
     notation: 'standard',

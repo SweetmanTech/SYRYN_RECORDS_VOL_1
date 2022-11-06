@@ -1,7 +1,6 @@
 import { Box, Flex, Text, Stack, Separator } from '@zoralabs/zord'
 import React, { useMemo } from 'react'
 import { SubgraphERC721Drop } from 'models/subgraph'
-import { useERC721DropContract } from 'providers/ERC721DropProvider'
 import { useSaleStatus } from 'hooks/useSaleStatus'
 import { parseInt } from 'lodash'
 import { OPEN_EDITION_SIZE, dateOptions } from 'lib/constants'
@@ -13,7 +12,6 @@ export function MintDetails({
   collection: SubgraphERC721Drop
   showPresale?: boolean
 }) {
-  const { totalMinted } = useERC721DropContract()
   const { presaleExists } = useSaleStatus({ collection })
   const maxPerWallet = parseInt(collection.salesConfig.maxSalePurchasePerAddress)
 
@@ -38,7 +36,7 @@ export function MintDetails({
   // TODO: handle integer overflows for when we do open mints
   const formattedMintedCount = Intl.NumberFormat('en', {
     notation: 'standard',
-  }).format(totalMinted || parseInt(collection.totalMinted))
+  }).format(parseInt(collection.totalMinted))
 
   const formattedTotalSupplyCount = Intl.NumberFormat('en', {
     notation: 'standard',
