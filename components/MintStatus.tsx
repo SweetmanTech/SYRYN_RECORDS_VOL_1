@@ -10,7 +10,7 @@ import {
   Stack,
   SpinnerOG,
 } from '@zoralabs/zord'
-import React, { useEffect, useCallback, useMemo, useState } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import { SubgraphERC721Drop } from 'models/subgraph'
 import { useERC721DropContract } from 'providers/ERC721DropProvider'
 import { useAccount, useNetwork, useSigner } from 'wagmi'
@@ -22,8 +22,9 @@ import { useSaleStatus } from 'hooks/useSaleStatus'
 import { CountdownTimer } from 'components/CountdownTimer'
 import { cleanErrors } from 'lib/errors'
 import { AllowListEntry } from 'lib/merkle-proof'
-import { ContractTransaction, ethers } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import abi from '@lib/SYRYN-abi.json'
+import handleTxError from 'lib/handleTxError'
 
 function SaleStatus({
   collection,
@@ -60,11 +61,8 @@ function SaleStatus({
   
   const mint = async () => {
     const contract = new ethers.Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS, abi, signer);
-    console.log("CONTRACT", contract)
-    console.log("account", account)
-    console.log("mintCounter", mintCounter)
-    const tx = await contract.mint(account.address, 1, mintCounter)
-    console.log("tx", tx)
+    const tx = await contract.mint(account.address, 1, mintCounter, {value: (BigNumber.from(collection.salesConfig.publicSalePrice)).mul(mintCounter).toString()})
+    return tx
   }
 
   const handleMint = useCallback(async () => {
@@ -72,10 +70,7 @@ function SaleStatus({
     setAwaitingApproval(true)
     setErrors(undefined)
     try {
-      const tx: any = presale
-        ? await dropProvider.purchasePresale(mintCounter, allowlistEntry)
-        : await mint()
-      console.log({ tx })
+      const tx = await mint()
       setAwaitingApproval(false)
       setIsMinting(true)
       if (tx) {
@@ -86,6 +81,7 @@ function SaleStatus({
         throw 'Error creating transaction! Please try again'
       }
     } catch (e: any) {
+      handleTxError(e)
       setErrors(cleanErrors(e))
       setAwaitingApproval(false)
       setIsMinting(false)
