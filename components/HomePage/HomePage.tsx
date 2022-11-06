@@ -144,36 +144,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
                   {collection != null ? (
                     <>
                       <MintDetails collection={collection} showPresale={false} />
-                      {presaleExists ? (
-                        <>
-                          <Flex flexChildren gap="x3" mb="x2">
-                            <Button
-                              pill
-                              variant={showPresale ? 'primary' : 'ghost'}
-                              color={showPresale ? 'primary' : 'tertiary'}
-                              onClick={() => setShowPresale(true)}
-                            >
-                              Presale
-                            </Button>
-                            <Button
-                              pill
-                              variant={!showPresale ? 'primary' : 'ghost'}
-                              color={!showPresale ? 'primary' : 'tertiary'}
-                              onClick={() => setShowPresale(false)}
-                            >
-                              Public sale
-                            </Button>
-                          </Flex>
-                          <Box style={{ display: showPresale ? 'block' : 'none' }}>
-                            <PresaleStatus collection={collection} />
-                          </Box>
-                          <Box style={{ display: !showPresale ? 'block' : 'none' }}>
-                            <MintStatus collection={collection} />
-                          </Box>
-                        </>
-                      ) : (
-                        <MintStatus collection={collection} />
-                      )}
+                      <MintStatus collection={collection} />
                     </>
                   ) : (
                     <Paragraph align="center" mt="x8">
