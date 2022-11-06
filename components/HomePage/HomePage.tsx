@@ -20,6 +20,7 @@ import { PresaleStatus } from '@components/PresaleStatus'
 import { ipfsImage } from '@lib/helpers'
 import { header, maxWidth, border, heroImage } from 'styles/styles.css'
 import { useSaleStatus } from 'hooks/useSaleStatus'
+import Image from 'next/image'
 
 interface HomePageProps {
   collection: SubgraphERC721Drop;
@@ -64,23 +65,79 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
         />
         <meta name="twitter:image" content={ogImage} />
       </Head>
-      <Stack mt="x3" gap="x3" style={{backgroundColor: "#ceb435"}}>
-        <Box className={maxWidth} p="x4">
-          <Text variant="menu-lg" mb="x8" align="center">
-            <b>{collection.name}</b>
-          </Text>
-           
-          <Text style={{whiteSpace: "pre-line"}}>{collection?.editionMetadata?.description}</Text>
-          <Text >
-            <u><a href="https://ipfs.io/ipfs/bafkreiecfewq7fmvk6zuoe7djotqcu2m74w3yu5bv5b3qvt76ifulgtb5u?1" target="__blank">view full music metadata</a></u>
-          </Text>
-          <Box mt="x8" mx="auto" style={{ maxWidth: 560 }}>
-          <ERC721DropContractProvider
+      <div className="flex grid grid-cols-6 p-5 justify-center align-center" style={{backgroundColor: "#ceb435"}}> 
+          <div className="flex col-span-3 justify-center">
+            <img className="sm:w-full md:w-1/2" src="/images/syryn_records.png" />
+          </div>   
+          <div className="flex flex-col justify-center text-xs md:text-lg col-span-3 gap-5 pb-5">
+            <p>
+              Syryn Records is a <span className="font-bold">youth-run record label</span> serving young women and gender-expansive artists.
+            </p>
+            <p>
+              Women and non-binary professionals are underrepresented in the music industry - We want to change that! Our mission as Syryn Records is to <span className="italic font-bold">uplift</span> and <span className="italic font-bold">empower</span> youth interested in music industry professionals. We run yearly internships where our interns support and nurture a group of talented youth artists.
+            </p>
+          </div>
+          <div className="col-span-3 flex justify-center items-center">
+            <img className="sm:w-full md:w-1/2" src="/images/album_art.png" />
+          </div>
+          <div className="flex flex-col justify-center text-xs md:text-lg col-span-3">
+            <p className="pb-5">
+              Each year, we create a <span className="font-bold">compilation record</span> that supports our artists and our program. This year&apos;s record features 11 talented female musicians, poets, songwriters, and producers.
+            </p>
+            <p>
+              This year, we wanted to introduce our interns and artists to the incredible world of web3 and music NFTs! We are proud to introduce our genesis (aka first!) music NFT - an audio player featuring our compilation record, Syryn Records Vol. I!
+            </p>
+          </div>          
+          <div className="col-span-6 lg:col-span-3">
+            <div className="flex flex-col gap-3">
+              <p className="font-bold">
+                Track Listing            
+              </p>
+              <p className="text-xs">
+                Salome Agbaroji - Make a Million
+              </p>
+              <p className="text-xs">
+                Geia - All Girls to the Front
+              </p>
+              <p className="text-xs">
+                a. kai - city lights
+              </p>
+              <p className="text-xs">
+                Bugz R Beautiful - Botfly Larvae
+              </p>
+              <p className="text-xs">
+                Zadie Jean - october
+              </p>
+              <p className="text-xs">
+                GeminiMusic - Let Me Go
+              </p>
+              <p className="text-xs">
+                Victorie - Lovesick
+              </p>
+              <p className="text-xs">
+                Gertrude - guilty
+              </p>
+              <p className="text-xs">
+                Raiesa - Why Should I?
+              </p>
+              <p className="text-xs">
+                Reiyn - Someday
+              </p>
+              <p className="text-xs">
+                gruel - ephemeral sun
+              </p>
+            </div>
+            <img className="sm:w-full md:w-1/2" src="/images/syryn_records_logo.png" />
+            <img className="sm:w-full md:w-1/2" src="/images/purchasing_track_list.png" />
+
+          </div>
+          <div className="flex flex-col justify-center text-xs md:text-lg col-span-6 lg:col-span-3">
+            <ERC721DropContractProvider
                 erc721DropAddress={collection.address}
                 chainId={chainId}
               >
-<Well className={border} p="x6" style={{ borderBottom: 0 }}>
-              <iframe height={750} width={500} src={ipfsImage(collection.editionMetadata.animationURI)} frameBorder="0"></iframe>
+            <Well className={border} p="x6" style={{ borderBottom: 0 }}>
+              <iframe height={800} src={ipfsImage(collection.editionMetadata.animationURI)} frameBorder="0"></iframe>
             </Well>
             <Well className={border} p="x6">
                 <Box>
@@ -125,11 +182,25 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
                   )}
                 </Box>
             </Well>
-              </ERC721DropContractProvider>
-            
-          </Box>
-        </Box>
-      </Stack>
+            </ERC721DropContractProvider>
+          </div>
+          <div className="col-span-6 flex justify-center">
+            <img className="sm:w-full md:w-1/2" src="/images/our_artists.png" />
+          </div>
+          <div className="col-span-6 grid flex justify-around grid-cols-1 md:grid-cols-4">
+            <img src="/images/salome.png" />
+            <img src="/images/geia.png" />
+            <img src="/images/a_kai.png" />
+            <img src="/images/bugz_r_beautiful.png" />
+            <img src="/images/zadie.png" />
+            <img src="/images/gemini.png" />
+            <img src="/images/victorie.png" />
+            <img src="/images/gertrude.png" />
+            <img src="/images/raiesa.png" />
+            <img src="/images/reiyn.png" />
+            <img src="/images/gruel.png" />
+          </div>
+      </div>
     </>
   )
 }
