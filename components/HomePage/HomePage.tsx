@@ -155,8 +155,8 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
             </Well>
             </ERC721DropContractProvider>
           </div>
-          <div className="col-span-6 flex justify-center">
-            <img className="sm:w-full md:w-1/2" src="/images/our_artists.png" />
+          <div className="col-span-6 pt-5 flex justify-center">
+            <img className="sm:w-full md:w-1/2" src="/images/our_artists2.png" />
           </div>
           <div className="col-span-6 grid flex justify-around grid-cols-1 md:grid-cols-4">
             <img src="/images/salome.png" />
