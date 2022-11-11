@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      body: ['"Cerebri Sans"', 'sans-serif'],
+    },
   },
   plugins: [],
 }
