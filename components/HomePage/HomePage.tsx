@@ -17,6 +17,7 @@ import { SubgraphERC721Drop } from 'models/subgraph'
 import { MintStatus } from '@components/MintStatus'
 import { MintDetails } from '@components/MintDetails'
 import { PresaleStatus } from '@components/PresaleStatus'
+import SeoHead from '@components/SeoHead'
 import { ipfsImage } from '@lib/helpers'
 import { header, maxWidth, border, heroImage } from 'styles/styles.css'
 import { useSaleStatus } from 'hooks/useSaleStatus'
@@ -34,37 +35,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
 
   return (
     <>
-      <Head>
-        <title>{collection.name}</title>
-        <meta name="title" content={`${collection.name}`} />
-        <meta
-          name="description"
-          content={
-            collection.editionMetadata?.description ||
-            "Wura, A Narrative"
-          }
-        />
-        <meta name="og:title" content={`${collection.name}`} />
-        <meta
-          name="og:url"
-          content="https://planetsun.xyz"
-        />
-        <meta
-          name="og:description"
-          content={
-            collection.editionMetadata?.description ||
-            "Wura, A Narrative"
-          }
-        />
-        <meta name="og:image" content={ogImage} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${collection.name}`} />
-        <meta
-          name="twitter:url"
-          content="https://planetsun.xyz"
-        />
-        <meta name="twitter:image" content={ogImage} />
-      </Head>
+      <SeoHead />
       <div className="flex grid grid-cols-6 p-5 justify-center align-center" style={{backgroundColor: "#ceb435"}}> 
           <div className="flex col-span-6 md:col-span-3 justify-center">
             <img className="lg:max-w-lg" src="/images/syryn_records2.png" />
