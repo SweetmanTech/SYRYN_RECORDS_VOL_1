@@ -5,9 +5,8 @@ const SeoHead = () => {
   const title = 'Syryn Records Vol. I'
   const description =
     'Syryn Records is a youth-run record label serving young women and gender-expansive artists.'
-  const image = ipfsImage(
-    'ipfs://bafybeiewx6ecp3gz3r6fczzvw5poa652bkwz3qtolpdsncg3quhhesu5rq'
-  )
+  const image =
+    'https://nftstorage.link/ipfs/bafybeiewx6ecp3gz3r6fczzvw5poa652bkwz3qtolpdsncg3quhhesu5rq'
 
   return (
     <Head>
