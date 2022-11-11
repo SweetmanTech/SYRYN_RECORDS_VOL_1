@@ -1,27 +1,17 @@
-import Head from 'next/head'
-import { useState } from 'react'
 import {
   Box,
-  Stack,
-  Flex,
   Well,
-  Text,
-  Button,
   Paragraph,
   SpinnerOG,
 } from '@zoralabs/zord'
-import { ConnectWallet } from '@components/ConnectWallet'
 import ERC721DropContractProvider from '@providers/ERC721DropProvider'
 import { NextPage } from 'next'
 import { SubgraphERC721Drop } from 'models/subgraph'
 import { MintStatus } from '@components/MintStatus'
 import { MintDetails } from '@components/MintDetails'
-import { PresaleStatus } from '@components/PresaleStatus'
 import SeoHead from '@components/SeoHead'
 import { ipfsImage } from '@lib/helpers'
-import { header, maxWidth, border, heroImage } from 'styles/styles.css'
-import { useSaleStatus } from 'hooks/useSaleStatus'
-import Image from 'next/image'
+import { border } from 'styles/styles.css'
 
 interface HomePageProps {
   collection: SubgraphERC721Drop;
@@ -29,9 +19,6 @@ interface HomePageProps {
 }
 
 const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
-  const ogImage = ipfsImage("ipfs://bafybeifomuzbda6vaa2zas5il5r3k2wvtnkuuhg3d2wij6iv572pttmiqa/Wura cover art (1).png")
-  const { presaleExists, saleNotStarted, saleIsFinished } = useSaleStatus({ collection })
-  const [showPresale, setShowPresale] = useState(saleNotStarted && !saleIsFinished)
 
   return (
     <>
