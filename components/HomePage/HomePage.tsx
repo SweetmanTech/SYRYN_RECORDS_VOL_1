@@ -66,10 +66,10 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
         <meta name="twitter:image" content={ogImage} />
       </Head>
       <div className="flex grid grid-cols-6 p-5 justify-center align-center" style={{backgroundColor: "#ceb435"}}> 
-          <div className="flex col-span-3 justify-center">
-            <img className="sm:w-full md:w-1/2" src="/images/syryn_records.png" />
+          <div className="flex col-span-6 md:col-span-3 justify-center">
+            <img className="lg:max-w-lg" src="/images/syryn_records2.png" />
           </div>   
-          <div className="flex flex-col justify-center text-xs md:text-lg col-span-3 gap-5 pb-5">
+          <div className="flex flex-col justify-center text-xs md:text-2xl col-span-6 md:col-span-3 gap-5 pb-5">
             <p>
               Syryn Records is a <span className="font-bold">youth-run record label</span> serving young women and gender-expansive artists.
             </p>
@@ -78,9 +78,9 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
             </p>
           </div>
           <div className="col-span-3 flex justify-center items-center">
-            <img className="sm:w-full md:w-1/2" src="/images/album_art.png" />
+            <img className="lg:max-w-lg" src="/images/album_art2.png" />
           </div>
-          <div className="flex flex-col justify-center text-xs md:text-lg col-span-3">
+          <div className="flex flex-col justify-center text-xs md:text-2xl col-span-3">
             <p className="pb-5">
               Each year, we create a <span className="font-bold">compilation record</span> that supports our artists and our program. This year&apos;s record features 11 talented female musicians, poets, songwriters, and producers.
             </p>
@@ -155,8 +155,8 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
             </Well>
             </ERC721DropContractProvider>
           </div>
-          <div className="col-span-6 flex justify-center">
-            <img className="sm:w-full md:w-1/2" src="/images/our_artists.png" />
+          <div className="col-span-6 pt-5 flex justify-center">
+            <img className="sm:w-full md:w-1/2" src="/images/our_artists2.png" />
           </div>
           <div className="col-span-6 grid flex justify-around grid-cols-1 md:grid-cols-4">
             <img src="/images/salome.png" />
