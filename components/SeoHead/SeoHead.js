@@ -2,7 +2,7 @@ import { ipfsImage } from '@lib/helpers'
 import Head from 'next/head'
 
 const SeoHead = () => {
-  const title = 'Syryn Records Vol. 1'
+  const title = 'Syryn Records Vol. I'
   const description =
     'Syryn Records is a youth-run record label serving young women and gender-expansive artists.'
   const image = ipfsImage(
