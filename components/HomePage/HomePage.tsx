@@ -46,42 +46,42 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
               This year, we wanted to introduce our interns and artists to the incredible world of web3 and music NFTs! We are proud to introduce our genesis (aka first!) music NFT - an audio player featuring our compilation record, Syryn Records Vol. I!
             </p>
           </div>          
-          <div className="order-6 lg:order-5 col-span-6 lg:col-span-3">
-            <div className="flex flex-col gap-3">
+          <div className="order-6 lg:order-5 text-2xl col-span-6 lg:col-span-3">
+            <div className="flex text-center flex-col gap-3">
               <p className="font-bold">
                 Track Listing            
               </p>
-              <p className="text-xs">
+              <p>
                 Salome Agbaroji - Make a Million
               </p>
-              <p className="text-xs">
+              <p>
                 Geia - All Girls to the Front
               </p>
-              <p className="text-xs">
+              <p>
                 a. kai - city lights
               </p>
-              <p className="text-xs">
+              <p>
                 Bugz R Beautiful - Botfly Larvae
               </p>
-              <p className="text-xs">
+              <p>
                 Zadie Jean - october
               </p>
-              <p className="text-xs">
+              <p>
                 GeminiMusic - Let Me Go
               </p>
-              <p className="text-xs">
+              <p>
                 Victorie - Lovesick
               </p>
-              <p className="text-xs">
+              <p>
                 Gertrude - guilty
               </p>
-              <p className="text-xs">
+              <p>
                 Raiesa - Why Should I?
               </p>
-              <p className="text-xs">
+              <p >
                 Reiyn - Someday
               </p>
-              <p className="text-xs">
+              <p>
                 gruel - ephemeral sun
               </p>
             </div>
@@ -89,7 +89,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
             <img className="sm:w-full md:w-1/2" src="/images/purchasing_track_list.png" />
 
           </div>
-          <div className="order-5 lg:order-6 flex flex-col justify-center text-xs md:text-lg col-span-6 lg:col-span-3">
+          <div className="order-5 lg:order-6 flex flex-col justify-start text-xs md:text-lg col-span-6 lg:col-span-3">
             <ERC721DropContractProvider
                 erc721DropAddress={collection.address}
                 chainId={chainId}
