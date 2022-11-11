@@ -94,10 +94,10 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
                 erc721DropAddress={collection.address}
                 chainId={chainId}
               >
-            <Well className={border} p="x6" style={{ borderBottom: 0 }}>
-              <iframe height={800} src={ipfsImage(collection.editionMetadata.animationURI)} frameBorder="0"></iframe>
+            <Well className="rounded-none border-black bg-white" p="x6" style={{ borderBottom: 0 }}>
+              <iframe className='h-[500px] sm:h-[800px]' src={ipfsImage(collection.editionMetadata.animationURI)} frameBorder="0"></iframe>
             </Well>
-            <Well className={border} p="x6">
+            <Well className="rounded-none border-black bg-white" p="x6">
                 <Box>
                   {collection != null ? (
                     <>
