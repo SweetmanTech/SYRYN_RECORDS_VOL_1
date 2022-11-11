@@ -42,6 +42,7 @@ function App({ Component, pageProps }) {
             borderRadius: 'small',
           })}
         >
+          <link href="https://fonts.cdnfonts.com/css/cerebri-sans" rel="stylesheet"></link>
           <ERC721DropContractProvider
                 erc721DropAddress={process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}
                 chainId={parseInt(process.env.NEXT_PUBLIC_CHAIN_ID)}

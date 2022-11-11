@@ -23,7 +23,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
   return (
     <>
       <SeoHead />
-      <div className="flex grid grid-cols-6 p-5 justify-center align-center" style={{backgroundColor: "#ceb435"}}> 
+      <div className="font-body flex grid grid-cols-6 p-5 justify-center align-center" style={{backgroundColor: "#ceb435"}}> 
           <div className="order-1 flex col-span-6 md:col-span-3 justify-center">
             <img className="lg:max-w-lg" src="/images/syryn_records2.png" />
           </div>   
