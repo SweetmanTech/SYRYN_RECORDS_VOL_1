@@ -27,7 +27,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
           <div className="order-1 flex col-span-6 md:col-span-3 justify-center">
             <img className="lg:max-w-lg" src="/images/syryn_records2.png" />
           </div>   
-          <div className="order-2 flex flex-col justify-end text-xs md:text-2xl col-span-6 md:col-span-3 gap-5 pb-5">
+          <div className="order-2 flex flex-col justify-end text-md md:text-2xl col-span-6 md:col-span-3 gap-5 pb-5">
             <p>
               Syryn Records is a <span className="font-bold">youth-run record label</span> serving young women and gender-expansive artists.
             </p>
@@ -38,7 +38,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
           <div className="order-3 col-span-3 flex justify-center items-center">
             <img className="lg:max-w-sm" src="/images/album_art2.png" />
           </div>
-          <div className="order-4 flex flex-col justify-start text-xs md:text-2xl col-span-3">
+          <div className="order-4 flex flex-col justify-start text-sm md:text-2xl col-span-3">
             <p className="pb-5">
               Each year, we create a <span className="font-bold">compilation record</span> that supports our artists and our program. This year&apos;s record features 11 talented female musicians, poets, songwriters, and producers.
             </p>
