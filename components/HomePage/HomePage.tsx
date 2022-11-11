@@ -46,8 +46,8 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
               This year, we wanted to introduce our interns and artists to the incredible world of web3 and music NFTs! We are proud to introduce our genesis (aka first!) music NFT - an audio player featuring our compilation record, Syryn Records Vol. I!
             </p>
           </div>          
-          <div className="order-6 lg:order-5 text-2xl col-span-6 lg:col-span-3">
-            <div className="flex text-center flex-col gap-3">
+          <div className="order-6 grid justify-items-center	text-center lg:order-5 text-2xl col-span-6 lg:col-span-3">
+            <div className="flex flex-col gap-3">
               <p className="font-bold">
                 Track Listing            
               </p>
@@ -85,8 +85,8 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
                 gruel - ephemeral sun
               </p>
             </div>
-            <img className="sm:w-full md:w-1/2" src="/images/syryn_records_logo.png" />
-            <img className="sm:w-full md:w-1/2" src="/images/purchasing_track_list.png" />
+            <img className="lg:max-w-lg align-center" src="/images/syryn_records_logo2.png" />
+            <img  src="/images/purchasing_track_list2.png" />
 
           </div>
           <div className="order-5 lg:order-6 flex flex-col justify-start text-xs md:text-lg col-span-6 lg:col-span-3">
