@@ -38,7 +38,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
           <div className="order-3 col-span-3 flex justify-center items-center">
             <img className="lg:max-w-sm" src="/images/album_art2.png" />
           </div>
-          <div className="order-4 flex flex-col justify-start text-sm md:text-2xl col-span-3">
+          <div className="order-4 flex flex-col justify-start text-md md:text-2xl col-span-3">
             <p className="pb-5">
               Each year, we create a <span className="font-bold">compilation record</span> that supports our artists and our program. This year&apos;s record features 11 talented female musicians, poets, songwriters, and producers.
             </p>
@@ -89,7 +89,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection, chainId }) => {
             <img  src="/images/purchasing_track_list2.png" />
 
           </div>
-          <div className="order-5 lg:order-6 flex flex-col justify-start text-xs md:text-lg col-span-6 lg:col-span-3">
+          <div className="my-5 order-5 lg:order-6 flex flex-col justify-start text-xs md:text-lg col-span-6 lg:col-span-3">
             <ERC721DropContractProvider
                 erc721DropAddress={collection.address}
                 chainId={chainId}
